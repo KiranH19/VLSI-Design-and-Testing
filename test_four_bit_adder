@@ -1,0 +1,24 @@
+Testbench Code:
+
+Test Bench – fa_test.v:
+
+module test_4_bit;
+ reg [3:0] A, B; // 4-bit inputs
+ reg C0; // Single-bit carry-in
+ wire [3:0] S; // 4-bit sum output
+ wire C4; // Single-bit carry-out
+
+ // Instantiate the 4-bit adder module
+ four_bit_adder dut (A, B, C0, S, C4);
+
+ // Test stimulus
+ initial begin
+ $monitor("Time=%0t | A=%b B=%b C0=%b | S=%b C4=%b", $time, A,
+B, C0, S, C4);
+
+ A = 4'b0011; B = 4'b0011; C0 = 1'b0; #10; // 3 + 3 + 0 = 6 (0110)
+ A = 4'b1011; B = 4'b0111; C0 = 1'b1; #10; // 11 + 7 + 1 = 19 (10011)
+ A = 4'b1111; B = 4'b1111; C0 = 1'b1; #10; // 15 + 15 + 1 = 31 (11111)
+ #20 $finish; // End simulation
+ end
+endmodule
