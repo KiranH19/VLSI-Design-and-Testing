@@ -1,0 +1,27 @@
+Verilog Code
+
+module shift_add_multiplier (
+ input [3:0] a, // 4-bit multiplicand
+ input [3:0] b, // 4-bit multiplier
+ output [7:0] product
+);
+ // Internal registers
+ reg [7:0] prod_reg;
+ reg [3:0] count;
+ // On each clock cycle, we check one bit of b and add/shift
+ // This example uses a simple sequential approach with a for-loop.
+ integer i;
+ always @* begin
+ // Initialize the product register
+ prod_reg = 8'b0;
+ // Loop through each bit of b
+ for (i = 0; i < 4; i = i + 1) begin
+ // If the current bit of b is 1, add the partial product
+ if (b[i] == 1'b1) begin
+ // Shift a by i bits to the left and add
+ prod_reg = prod_reg + (a << i);
+ end
+ end
+ end
+ assign product = prod_reg;
+endmodule 
