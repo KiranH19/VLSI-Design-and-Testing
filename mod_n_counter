@@ -1,0 +1,16 @@
+Verilog Code:
+
+module mod_n_counter(
+ input clk, // Clock signal
+ input rst_n, // Asynchronous reset (active low)
+ input [3:0] N, // Modulus value (up to 15)
+ output reg [3:0] count // 4-bit counter output
+);
+ always @(posedge clk or negedge rst_n) begin
+ if (~rst_n) // Active low reset
+ count <= 4'b0000; // Reset counter to 0
+ else if (count == N-1)
+count <= 4'b0000; // Reset counter when it reaches N-1
+ else
+ count <= count + 1; // Increment counter
+ end
