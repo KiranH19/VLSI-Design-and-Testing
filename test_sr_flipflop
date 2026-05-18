@@ -1,0 +1,21 @@
+Testbench Code:
+
+module sr_flipflop_tb;
+ reg s, r, clk;
+ wire q, qbar;
+ // Instantiate the SR Flip-Flop
+ sr_flipflop uut (.q(q), .qbar(qbar), .s(s), .r(r), .clk(clk));
+ initial begin
+ // Initialize inputs
+ clk = 0; s = 0; r = 0;
+
+ #10 s = 1; r = 0; // Set (Q = 1)
+ #10 s = 0; r = 0; // Hold state
+ #10 s = 0; r = 1; // Reset (Q = 0)
+ #10 s = 1; r = 1; // Invalid state (Q = X)
+ #10 s = 0; r = 0; // Hold state
+ #50 $finish; // End simulation
+ end
+ // Clock Generation
+ always #5 clk = ~clk; // Toggle clock every 5 time units
+endmodule
