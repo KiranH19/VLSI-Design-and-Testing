@@ -1,22 +1,69 @@
-Testbench Code:
+// Testbench Code
 
-module alu_32bit_tb_case;
-reg [31:0]a;
-reg [31:0]b;
-reg [2:0]f;
-wire [31:0]y;
-alu_32bit_case test2(.y(y), .a(a), .b(b), .f(f));
+`timescale 1ns/1ps
+
+module alu_bit_tb;
+
+reg [31:0] A;
+reg [31:0] B;
+reg [3:0] ALU_Sel;
+
+wire [31:0] ALU_Out;
+wire Zero;
+
+// Instantiate ALU
+
+alu_bit dut (
+.A(A),
+.B(B),
+.ALU_Sel(ALU_Sel),
+.ALU_Out(ALU_Out),
+.Zero(Zero)
+);
+
 initial
 begin
-a=32'h00000000;
-b=32'hFFFFFFFF;
-#10 f=3'b000;
-#10 f=3'b001;
-#10 f=3'b010;
-#10 f=3'b010;
-#10 f=3'b011;
-#10 f=3'b100;
+
+A = 32'd15;
+B = 32'd5;
+
+// Addition
+#10 ALU_Sel = 4'b0000;
+
+// Subtraction
+#10 ALU_Sel = 4'b0001;
+
+// AND
+#10 ALU_Sel = 4'b0010;
+
+// OR
+#10 ALU_Sel = 4'b0011;
+
+// XOR
+#10 ALU_Sel = 4'b0100;
+
+// NEGATION
+#10 ALU_Sel = 4'b0101;
+
+// LEFT SHIFT
+#10 ALU_Sel = 4'b0110;
+
+// RIGHT SHIFT
+#10 ALU_Sel = 4'b0111;
+
+// LESS THAN
+#10 ALU_Sel = 4'b1000;
+
+#20 $finish;
+
 end
+
 initial
-#50 $finish;
+begin
+
+$monitor("Time=%0t ALU_Sel=%b A=%d B=%d ALU_Out=%d Zero=%b",
+          $time, ALU_Sel, A, B, ALU_Out, Zero);
+
+end
+
 endmodule
